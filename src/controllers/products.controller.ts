@@ -15,6 +15,16 @@ async function create(req: Request, res: Response) {
   }
 }
 
+async function findAll(req: Request, res: Response) {
+  try {
+    const serviceResponse = await productsService.findAll();
+    res.status(200).json(serviceResponse.data);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+}
+
 export default {
   create,
+  findAll,
 };
