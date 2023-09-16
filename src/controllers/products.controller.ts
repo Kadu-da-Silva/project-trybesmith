@@ -15,7 +15,7 @@ async function create(req: Request, res: Response) {
   }
 }
 
-async function findAll(req: Request, res: Response) {
+async function findAll(_req: Request, res: Response) {
   try {
     const serviceResponse = await productsService.findAll();
     res.status(200).json(serviceResponse.data);
