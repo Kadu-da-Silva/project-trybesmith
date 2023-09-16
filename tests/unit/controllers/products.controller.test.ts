@@ -28,42 +28,42 @@ describe('ProductsController', function () {
 
     const serviceResponse: ServiceResponse<Product> = {
       status: 'INVALID_DATA',
-      data: { message: 'Name is required'}
+      data: { message: '"name" is required'}
     }
 
     sinon.stub(productsService, 'create').resolves(serviceResponse)
     await productsController.create(req, res);
 
     expect(res.status).to.have.been.calledWith(INVALID_DATA)
-    expect(res.json).to.have.been.calledWith({ message: 'Name is required'})
+    expect(res.json).to.have.been.calledWith({ message: '"name" is required'})
   })
   it('ao não receber um PRICE, retorne um erro', async function () {
     req.body = productMock.noPriceProductBody;
 
     const serviceResponse: ServiceResponse<Product> = {
       status: 'INVALID_DATA',
-      data: { message: 'Price is required'}
+      data: { message: '"price" is required'}
     }
 
     sinon.stub(productsService, 'create').resolves(serviceResponse)
     await productsController.create(req, res);
 
     expect(res.status).to.have.been.calledWith(INVALID_DATA)
-    expect(res.json).to.have.been.calledWith({ message: 'Price is required'})
+    expect(res.json).to.have.been.calledWith({ message: '"price" is required'})
   })
   it('ao não receber um ORDER_ID, retorne um erro', async function () {
     req.body = productMock.noOderIdProductBody;
 
     const serviceResponse: ServiceResponse<Product> = {
       status: 'INVALID_DATA',
-      data: { message: 'OrderId is required'}
+      data: { message: '"order" is required'}
     }
 
     sinon.stub(productsService, 'create').resolves(serviceResponse)
     await productsController.create(req, res);
 
     expect(res.status).to.have.been.calledWith(INVALID_DATA)
-    expect(res.json).to.have.been.calledWith({ message: 'OrderId is required'})
+    expect(res.json).to.have.been.calledWith({ message: '"order" is required'})
   })
   it('retorna erro do servidor na rota post', async function () {
     req.body = productMock.validProductBody;

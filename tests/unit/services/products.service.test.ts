@@ -13,7 +13,7 @@ describe('ProductsService', function () {
     const serviceResponse = await productService.create(parameters)
 
     expect(serviceResponse.status).to.eq('INVALID_DATA');
-    expect(serviceResponse.data).to.deep.eq({ message: 'Name is required'})
+    expect(serviceResponse.data).to.deep.eq({ message: '"name" is required'})
   })
   it('ao não receber um PRICE, retorne um erro', async function () {
     const parameters = productMock.noPriceProductBody;
@@ -21,7 +21,7 @@ describe('ProductsService', function () {
     const serviceResponse = await productService.create(parameters)
 
     expect(serviceResponse.status).to.eq('INVALID_DATA');
-    expect(serviceResponse.data).to.deep.eq({ message: 'Price is required'})
+    expect(serviceResponse.data).to.deep.eq({ message: '"price" is required'})
   })
   it('ao não receber um ORDER_ID, retorne um erro', async function () {
     const parameters = productMock.noOderIdProductBody;
@@ -29,7 +29,7 @@ describe('ProductsService', function () {
     const serviceResponse = await productService.create(parameters)
 
     expect(serviceResponse.status).to.eq('INVALID_DATA');
-    expect(serviceResponse.data).to.deep.eq({ message: 'OrderId is required'})
+    expect(serviceResponse.data).to.deep.eq({ message: '"order" is required'})
   })
   it('ao receber todos os parâmetros corretamente, retorna produto criado com sucesso', async function () {
     const mockProduct = ProductModel.build(productMock.newProductDB)
