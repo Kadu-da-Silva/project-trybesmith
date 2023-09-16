@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import productMock from '../../mocks/productMock'
 import productService from '../../../src/services/products.service'
+import ProductModel from '../../../src/database/models/product.model';
 
 describe('ProductsService', function () {
   beforeEach(function () { sinon.restore(); });
@@ -29,5 +30,23 @@ describe('ProductsService', function () {
 
     expect(serviceResponse.status).to.eq('INVALID_DATA');
     expect(serviceResponse.data).to.deep.eq({ message: 'OrderId is required'})
+  })
+  it('ao receber todos os parâmetros corretamente, retorna produto criado com sucesso', async function () {
+    const mockProduct = ProductModel.build(productMock.newProductDB)
+    sinon.stub(ProductModel, 'create').resolves(mockProduct);
+
+    const serviceResponse = await productService.create(productMock.validProductBody)
+
+    expect(serviceResponse.status).to.eq('SUCCESSFUL')
+    expect(serviceResponse.data).to.deep.eq(productMock.newProductDB)
+  })
+  it('retorna a lista de produtos com sucesso', async function () {
+    const mockProduct = ProductModel.bulkBuild(productMock.productsList)
+    sinon.stub(ProductModel, 'findAll').resolves(mockProduct);
+
+    const serviceResponse = await productService.findAll()
+
+    expect(serviceResponse.status).to.eq('SUCCESSFUL')
+    expect(serviceResponse.data).to.deep.eq(productMock.productsList)
   })
 });

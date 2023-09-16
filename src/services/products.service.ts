@@ -1,8 +1,5 @@
 import ProductModel, 
-{ 
-  ProductInputtableTypes, 
-  ProductSequelizeModel,
-} from '../database/models/product.model';
+{ ProductInputtableTypes } from '../database/models/product.model';
 import { Product } from '../types/Product';
 import { ServiceResponse } from '../types/ServiceResponse';
 
@@ -24,9 +21,9 @@ async function create(
   return { status: 'SUCCESSFUL', data: newProduct.dataValues };
 }
 
-async function findAll(): Promise<ServiceResponse<ProductSequelizeModel[]>> {
+async function findAll(): Promise<ServiceResponse<Product[]>> {
   const products = await ProductModel.findAll();
-  return { status: 'SUCCESSFUL', data: products };
+  return { status: 'SUCCESSFUL', data: products.map((p) => p.dataValues) };
 }
 
 export default {

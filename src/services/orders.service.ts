@@ -1,12 +1,9 @@
 import OrderModel from '../database/models/order.model';
 import ProductModel from '../database/models/product.model';
+import { ServiceResponse } from '../types/ServiceResponse';
+import { OrderWithProductIds } from '../types/Order';
 
-type Order = Promise<{
-  status: string,
-  data: object | object[]
-}>;
-
-async function findAll(): Promise<Order> {
+async function findAll(): Promise<ServiceResponse<OrderWithProductIds[]>> {
   const orders = await OrderModel.findAll({
     include: [
       {
@@ -16,12 +13,11 @@ async function findAll(): Promise<Order> {
       },
     ],
   });
-  const ordersWithProductIds = orders
-    .map((order) => order.toJSON())
-    .map((order) => ({
-      ...order,
-      productIds: order.productIds?.map(({ id }) => id),
-    }));
+  const ordersWithProductIds: OrderWithProductIds[] = orders.map((order) => ({
+    id: order.toJSON().id,
+    userId: order.toJSON().userId,
+    productIds: order.toJSON().productIds?.map(({ id }) => id),
+  }));
   return { status: 'SUCCESSFUL', data: ordersWithProductIds };
 }
 
