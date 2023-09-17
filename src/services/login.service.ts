@@ -14,11 +14,7 @@ async function verifyLogin(login: Login): Promise<ServiceResponse<Token>> {
   }
   
   const foundUser = await UserModel.findOne({ where: { username: login.username } });
-  if (!foundUser) {
-    return { status: UNAUTHORIZED, data: { message: 'Username or password invalid' } };
-  }
-  const validatePassword = await bcrypt.compare(login.password, foundUser.dataValues.password);
-  if (!validatePassword) {
+  if (!foundUser || !bcrypt.compareSync(login.password, foundUser.dataValues.password)) {
     return { status: UNAUTHORIZED, data: { message: 'Username or password invalid' } };
   }
 
